@@ -12,6 +12,9 @@ on:
       NUGET_APIKEY:
         required: true
 
+env:
+  NuGetDirectory: ${{ github.workspace}}/nuget
+
 defaults:
   run:
     shell: pwsh
@@ -27,14 +30,14 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
 
-    - run: dotnet pack --configuration Release --output ${{ inputs.NuGetDirectory }}
+    - run: dotnet pack --configuration Release --output ${{ env.NuGetDirectory }}
 
     - uses: actions/upload-artifact@v3
       with:
         name: nuget
         if-no-files-found: error
         retention-days: 7
-        path: ${{ inputs.NuGetDirectory }}/*.nupkg
+        path: ${{ env.NuGetDirectory }}/*.nupkg
 
   validate_nuget:
     runs-on: ubuntu-latest
@@ -46,7 +49,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: nuget
-          path: ${{ inputs.NuGetDirectory }}
+          path: ${{ env.NuGetDirectory }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -55,13 +58,13 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: nuget
-          path: ${{ inputs.NuGetDirectory }}
+          path: ${{ env.NuGetDirectory }}
 
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
 
       - name: Publish NuGet package
         run: |
-          foreach($file in (Get-ChildItem "${{ inputs.NuGetDirectory }}" -Recurse -Include *.nupkg)) {
+          foreach($file in (Get-ChildItem "${{ env.NuGetDirectory }}" -Recurse -Include *.nupkg)) {
               dotnet nuget push $file --api-key "${{ secrets.NUGET_APIKEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
           }
