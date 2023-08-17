@@ -4,10 +4,6 @@ name: publish
 
 on:
   workflow_call:
-    inputs:
-      NuGetDirectory:
-        required: true
-        type: string
     secrets:
       NUGET_APIKEY:
         required: true
