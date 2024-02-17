@@ -24,13 +24,10 @@ jobs:
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-    - name: SSH to remote machine
-      run: |
-        ssh -o StrictHostKeyChecking=no \
-            ubuntu@168.75.82.21 ' \
-            docker pull ${{ inputs.image }}:main && \
-            docker stop ${{ inputs.image }} && \
-            docker rm ${{ inputs.image }} && \
-            docker run -d -p ${{ inputs.port }}:8080 ${{ inputs.image }}:main'
-    
+        script: |
+          ssh -o StrictHostKeyChecking=no \
+          ubuntu@168.75.82.21 ' \
+          docker pull ${{ inputs.image }}:main && \
+          docker stop ${{ inputs.image }} && \
+          docker rm ${{ inputs.image }} && \
+          docker run -d -p ${{ inputs.port }}:8080 ${{ inputs.image }}:main'
