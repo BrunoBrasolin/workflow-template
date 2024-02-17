@@ -5,7 +5,10 @@ name: ASP.NET Docker CD
 on:
   workflow_call:
     inputs:
-      image:
+      dockerAccount:
+        required: true
+        type: string
+      applicationName:
         required: true
         type: string
       port:
@@ -27,7 +30,7 @@ jobs:
         script: |
           ssh -o StrictHostKeyChecking=no \
           ubuntu@168.75.82.21 ' \
-          docker pull ${{ inputs.image }}:main && \
-          docker stop ${{ inputs.image }} && \
-          docker rm ${{ inputs.image }} && \
-          docker run -d -p ${{ inputs.port }}:8080 ${{ inputs.image }}:main'
+          docker pull ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main && \
+          docker stop ${{ inputs.applicationName }} && \
+          docker rm ${{ inputs.applicationName }} && \
+          docker run -d --name ${{ inputs.applicationName }} -p ${{ inputs.port }}:8080 ${{ inputs.image }}:main'
