@@ -34,4 +34,4 @@ jobs:
           docker pull ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main && \
           docker stop ${{ inputs.applicationName }} && \
           docker rm ${{ inputs.applicationName }} && \
-          docker run -d --name ${{ inputs.applicationName }} -p ${{ inputs.port }}:8080 ${{ inputs.image }}:main'
+          docker run -d --name ${{ inputs.applicationName }} -p ${{ inputs.port }}:8080 ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main'
