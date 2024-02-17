@@ -8,6 +8,9 @@ on:
       image:
         required: true
         type: string
+      port:
+        required: true
+        type: string
     secrets:
       SSH_PRIVATE_KEY:
         required: true
@@ -29,5 +32,5 @@ jobs:
             docker pull ${{ inputs.image }}:main && \
             docker stop ${{ inputs.image }} && \
             docker rm ${{ inputs.image }} && \
-            docker run -d --name ${{ inputs.image }} -p 80:80 ${{ inputs.image }}:main'
+            docker run -d -p ${{ inputs.port }}:8080 ${{ inputs.image }}:main'
     
