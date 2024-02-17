@@ -26,10 +26,11 @@ jobs:
     - name: SSH
       uses: appleboy/ssh-action@master
       with:
+        host: 168.75.82.21
+        username: ubuntu
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          ssh -o StrictHostKeyChecking=no \
-          ubuntu@168.75.82.21 ' \
+          ssh -o && \
           docker pull ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main && \
           docker stop ${{ inputs.applicationName }} && \
           docker rm ${{ inputs.applicationName }} && \
