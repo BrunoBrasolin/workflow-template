@@ -30,8 +30,7 @@ jobs:
         username: ubuntu
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          ssh -o && \
           docker pull ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main && \
           docker stop ${{ inputs.applicationName }} && \
           docker rm ${{ inputs.applicationName }} && \
-          docker run -d --name ${{ inputs.applicationName }} -p ${{ inputs.port }}:8080 ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main'
+          docker run -d --name ${{ inputs.applicationName }} -p ${{ inputs.port }}:8080 ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main
