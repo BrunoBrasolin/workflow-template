@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+name: ASP.NET Docker CD
+
+on:
+  workflow_call:
+    inputs:
+      image:
+        required: true
+        type: string
+    secrets:
+      SSH_PRIVATE_KEY:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: SSH to remote machine
+      run: |
+        ssh -o StrictHostKeyChecking=no \
+            ubuntu@168.75.82.21 'sudo su && \
+            docker pull brunobrasolin/${{ inputs.image }}:main && \
+            docker stop ${{ inputs.image }} && \
+            docker rm ${{ inputs.image }} && \
+            docker run -d --name ${{ inputs.image }} -p 80:80 brunobrasolin/${{ inputs.image }}:main'
+    
