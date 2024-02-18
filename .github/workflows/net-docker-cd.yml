@@ -34,6 +34,7 @@ jobs:
           docker stop ${{ inputs.applicationName }} && \
           docker rm ${{ inputs.applicationName }} && \
           docker run -d --name ${{ inputs.applicationName }} \
-            -p ${{ inputs.port }}:8080 \
+              ${{ if not eq(inputs.port, 'null'): '-p ${{ inputs.port }}:8080'
+                else: '' }} \
             -v /etc/app/config:/app/config \
             ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main
