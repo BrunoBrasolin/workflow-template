@@ -40,7 +40,7 @@ jobs:
             ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main
             
     - name: SSH WORKER
-      if: inputs.port = '' || inputs.port = null
+      if: inputs.port == '' || inputs.port == null
       uses: appleboy/ssh-action@master
       with:
         host: 168.75.82.21
