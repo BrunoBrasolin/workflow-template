@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
-name: ASP.NET Docker CI
+name: .NET Docker CI
 
 on:
   workflow_call:
