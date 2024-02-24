@@ -1,0 +1,38 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+name: Angular Docker CD
+
+on:
+  workflow_call:
+    inputs:
+      dockerAccount:
+        required: true
+        type: string
+      applicationName:
+        required: true
+        type: string
+      port:
+        required: true
+        type: string
+    secrets:
+      SSH_PRIVATE_KEY:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: SSH ANGULAR
+      uses: appleboy/ssh-action@master
+      with:
+        host: 168.75.82.21
+        username: ubuntu
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          docker pull ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main && \
+          docker stop ${{ inputs.applicationName }} && \
+          docker rm ${{ inputs.applicationName }} && \
+          docker run -d --name ${{ inputs.applicationName }} \
+            -p ${{ inputs.port }}:4200 \
+            ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main
