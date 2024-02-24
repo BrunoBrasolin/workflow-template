@@ -26,7 +26,7 @@ jobs:
     - name: SSH ANGULAR
       uses: appleboy/ssh-action@master
       with:
-        host: 168.75.82.21
+        host: 164.152.52.68
         username: ubuntu
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
