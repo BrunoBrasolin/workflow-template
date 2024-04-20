@@ -16,7 +16,7 @@ on:
 
 jobs:
   sonar:
-name: Build and analyze
+    name: Build and analyze
     runs-on: windows-latest
     steps:
       - name: Set up JDK 17
