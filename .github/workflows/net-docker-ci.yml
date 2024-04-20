@@ -5,7 +5,7 @@ name: .NET Docker CI
 on:
   workflow_call:
     inputs:
-      image:
+      applicationName:
         required: true
         type: string
     secrets:
@@ -93,7 +93,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4.6.0
         with:
-          images: ${{ inputs.image }}
+          images: brunobrasolin/${{ inputs.applicationName }}
 
       - name: Push Docker image
         uses: docker/build-push-action@v4.1.1
