@@ -27,8 +27,8 @@ jobs:
       if: inputs.port != null
       uses: appleboy/ssh-action@master
       with:
-        host: 168.75.82.21
-        username: ubuntu
+        host: 152.67.63.173
+        username: scp
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           docker pull ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main && \
@@ -43,8 +43,8 @@ jobs:
       if: inputs.port == null
       uses: appleboy/ssh-action@master
       with:
-        host: 168.75.82.21
-        username: ubuntu
+        host: 152.67.63.173
+        username: scp
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           docker pull ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main && \
