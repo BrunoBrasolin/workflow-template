@@ -32,6 +32,8 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           docker pull ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main && \
+          docker stop ${{ inputs.applicationName }} && \
+          docker rm ${{ inputs.applicationName }} && \
           docker run -d --name ${{ inputs.applicationName }} \
             -p ${{ inputs.port }}:8080 \
             -v /etc/app/config:/app/config \
@@ -46,6 +48,8 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
           docker pull ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main && \
+          docker stop ${{ inputs.applicationName }} && \
+          docker rm ${{ inputs.applicationName }} && \
           docker run -d --name ${{ inputs.applicationName }} \
             -v /etc/app/config:/app/config \
             ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main
