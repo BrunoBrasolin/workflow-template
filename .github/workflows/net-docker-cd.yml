@@ -35,6 +35,7 @@ jobs:
           docker stop ${{ inputs.applicationName }} && \
           docker rm ${{ inputs.applicationName }} && \
           docker run -d --name ${{ inputs.applicationName }} \
+            --network default-network \
             -p ${{ inputs.port }}:8080 \
             -v /etc/app/config:/app/config \
             ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main
