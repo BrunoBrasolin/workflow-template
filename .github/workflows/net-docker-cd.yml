@@ -35,7 +35,7 @@ jobs:
           docker stop ${{ inputs.applicationName }} && \
           docker rm ${{ inputs.applicationName }} && \
           docker run -d --name ${{ inputs.applicationName }} \
-            -p ${{ inputs.port }}:8080 \
+            -p ${{ inputs.port }}:443 \
             -v /etc/app/config:/app/config \
             ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main
             
