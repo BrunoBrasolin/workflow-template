@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+
+name: nginx
+
+on:
+  workflow_call:
+    secrets:
+      SSH_PRIVATE_KEY:
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: SSH NGINX
+      uses: appleboy/ssh-action@master
+      with:
+        host: 152.67.63.173
+        username: opc
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          cd /etc/app/nginx && \
+          git clone https://github.com/BrunoBrasolin/nginx-gamidas.git . && \
+          docker rmi nginx --force && \
+          docker remove nginx --force && \
+          docker build -t nginx . && \
+          docker run -d --network default-network --name nginx -p 80:80 -p 443:443 nginx
