@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: SSH ASPNET
+    - name: SSH API
       uses: appleboy/ssh-action@master
       with:
         host: 152.67.63.173
