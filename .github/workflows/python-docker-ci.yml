@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
-name: .NET Docker CI
+name: Python Docker CI
 
 on:
   workflow_call:
@@ -62,19 +62,15 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Install .NET Core SDK
-        uses: actions/setup-dotnet@v1
+      - name: Install Python SDK
+        uses: actions/setup-python@v5
         with:
-          dotnet-version: '8.x.x'
+          python-version: '3.x'
 
-      - name: Restore NuGet packages
-        run: dotnet restore
-
-      - name: Build
-        run: dotnet build -c Release --no-restore
-
-      - name: Test
-        run: dotnet test -c Release --no-build
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
   publish:
     runs-on: ubuntu-latest
