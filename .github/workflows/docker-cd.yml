@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
-name: .NET Docker CD
+name: Docker CD
 
 on:
   workflow_call:
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: SSH ASPNET
+    - name: SSH WEB
       if: inputs.port != null
       uses: appleboy/ssh-action@master
       with:
