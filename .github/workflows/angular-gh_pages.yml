@@ -8,7 +8,7 @@ on:
         type: string
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -23,14 +23,9 @@ jobs:
         run: npm install
 
       - name: Install Angular CLI
-        run: npm install -g @angular/cli
-
-  publish:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
+        run: npm install -g @angular/
+        
       - name: Deploy to GitHub Pages
         run: ng deploy --cname=${{ inputs.cname }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
