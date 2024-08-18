@@ -6,11 +6,13 @@ on:
       applicationName:
         required: true
         type: string
+      cname:
+        required: true
+        type: string
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -22,11 +24,16 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        
+
       - name: Install Angular CLI
         run: npm install -g @angular/cli
 
+  publish:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
       - name: Deploy to GitHub Pages
-        run: ng deploy --cname=gamidas.dev.br --repo=https://github.com/BrunoBrasolin/front-gamidas.git
+        run: ng deploy --cname=${{ inputs.cname }} --repo=https://github.com/BrunoBrasolin/${{ inputs.applicationName }}.git
         env:
           CI: true
+    
