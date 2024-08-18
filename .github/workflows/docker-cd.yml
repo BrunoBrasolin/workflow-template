@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 
-name: NodeJS Docker CD
+name: Docker CD
 
 on:
   workflow_call:
@@ -23,7 +23,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: SSH API
+    - name: SSH WEB
+      if: inputs.port != null
       uses: appleboy/ssh-action@master
       with:
         host: 152.67.63.173
@@ -39,3 +40,18 @@ jobs:
             -v /etc/app/config:/app/config \
             ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main
             
+    - name: SSH WORKER
+      if: inputs.port == null
+      uses: appleboy/ssh-action@master
+      with:
+        host: 152.67.63.173
+        username: opc
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          docker pull ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main && \
+          docker stop ${{ inputs.applicationName }} && \
+          docker rm ${{ inputs.applicationName }} && \
+          docker run -d --name ${{ inputs.applicationName }} \
+            --network default-network \
+            -v /etc/app/config:/app/config \
+            ${{ inputs.dockerAccount }}/${{ inputs.applicationName }}:main
