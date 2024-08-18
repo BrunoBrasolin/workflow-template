@@ -33,7 +33,7 @@ jobs:
     needs: build
     steps:
       - name: Deploy to GitHub Pages
-        run: ng deploy --cname=${{ inputs.cname }} --repo=https://github.com/BrunoBrasolin/${{ inputs.applicationName }}.git
+        run: ng deploy --cname=${{ inputs.cname }}
         env:
-          CI: true
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
