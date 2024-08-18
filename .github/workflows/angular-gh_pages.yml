@@ -3,9 +3,6 @@ name: Angular GH Pages
 on:
   workflow_call:
     inputs:
-      applicationName:
-        required: true
-        type: string
       cname:
         required: true
         type: string
