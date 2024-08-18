@@ -23,9 +23,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build Angular app
-        run: npm run build -- --prod
-
       - name: Deploy to GitHub Pages
         run: ng deploy --cname=gamidas.dev.br --repo=https://github.com/BrunoBrasolin/front-gamidas.git
         env:
