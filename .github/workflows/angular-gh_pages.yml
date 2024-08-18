@@ -3,6 +3,9 @@ name: Angular GH Pages
 on:
   workflow_call:
     inputs:
+      applicationName:
+        required: true
+        type: string
       cname:
         required: true
         type: string
@@ -26,6 +29,6 @@ jobs:
         run: npm install -g @angular/cli
         
       - name: Deploy to GitHub Pages
-        run: ng deploy --cname=${{ inputs.cname }}
+        run: ng deploy --cname=${{ inputs.cname }} --repo=https://github.com/BrunoBrasolin/${{ inputs.applicationName }}.git
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
