@@ -15,6 +15,31 @@ on:
         required: true
 
 jobs:
+  sonar:
+    name: SonarCloud Scanner
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'zulu'
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install SonarCloud Scanner
+        run: |
+          pip install sonar-scanner
+
+      - name: Run SonarCloud Scan
+        run: |
+          sonar-scanner \
+            -Dsonar.projectKey=${{ inputs.applicationName }} \
+            -Dsonar.organization=<your-sonarcloud-organization> \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+
   build:
     runs-on: ubuntu-latest
     steps:
