@@ -15,56 +15,6 @@ on:
         required: true
 
 jobs:
-  sonar:
-    name: SonarCloud Scanner
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: 17
-          distribution: 'zulu'
-          
-      - name: Verify Java Version
-        run: java -version
-
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
-
-      - name: Cache SonarCloud scanner
-        id: cache-sonar-scanner
-        uses: actions/cache@v3
-        with:
-          path: ~/.sonar/scanner
-          key: ${{ runner.os }}-sonar-scanner
-          restore-keys: ${{ runner.os }}-sonar-scanner
-
-      - name: Install SonarCloud Scanner
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        run: |
-          mkdir -p ~/.sonar/scanner
-          curl -sSLo sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.0.2856-linux.zip
-          unzip sonar-scanner.zip -d ~/.sonar/scanner
-          ln -s ~/.sonar/scanner/sonar-scanner-*/bin/sonar-scanner /usr/local/bin/sonar-scanner
-
-      - name: Run SonarCloud Scan
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          sonar-scanner \
-            -Dsonar.projectKey=${{ inputs.applicationName }} \
-            -Dsonar.organization=brunobrasolin \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-
   build:
     runs-on: ubuntu-latest
     steps:
